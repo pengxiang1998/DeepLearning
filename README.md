@@ -1,6 +1,7 @@
 本文设计并实现的基于Attention机制的CNN-LSTM模型(以下简称为CLATT模型)一共分为五层，具体结构与原理如图所示。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/e76d9edd1c8b40bf9bb5eb6a36d5925d.png)
+
 第一层是输入层。规定输入数据的格式（批大小，时间步数，特征维度），将批大小默认为１，时间
 步数记为ｔ，特征维度记为ｎ，则一条样本可表示为一个实数序列矩阵Ｒ^ｔ×ｎ^，记ｘｉ 为Ｒ^ｔ×ｎ^ 中第ｉ个时间步数据的向量表示。
 第二层是卷积神经网络层（CNN 层）。CNN 层可以提取数据中不同特征值之间的空间联系，进
@@ -88,6 +89,7 @@ def series_to_supervised(data, n_in, n_out, dropnan=True):
 本文选择平均绝对误差（MAE）和均方根误差（RMSE）以及R^2^作为误差评估指标，来定量地分析模型预测效果，公式如下:
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/ee6d328202244c54981b6ee333e4448f.png)
+
 上述公式中，ｎ 表示预测样本个数，ｙ 表示真实值，ｙ′表示预测值。
 
 ```python
@@ -101,6 +103,7 @@ def series_to_supervised(data, n_in, n_out, dropnan=True):
 使用消融实验来进行模型对比
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/9c2fe99343504d52908abd842d9a3765.png)
+
 可以看到cnn_lstm_attention模型效果最好。
 ```python
 <function generate_lstm_model at 0x0000023BC73D9A60>  rmse: 0.03718616235924552   r2: 0.4299815376427156
