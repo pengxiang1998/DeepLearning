@@ -1,4 +1,5 @@
 本文设计并实现的基于Attention机制的CNN-LSTM模型(以下简称为CLATT模型)一共分为五层，具体结构与原理如图所示。
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/e76d9edd1c8b40bf9bb5eb6a36d5925d.png)
 第一层是输入层。规定输入数据的格式（批大小，时间步数，特征维度），将批大小默认为１，时间
 步数记为ｔ，特征维度记为ｎ，则一条样本可表示为一个实数序列矩阵Ｒ^ｔ×ｎ^，记ｘｉ 为Ｒ^ｔ×ｎ^ 中第ｉ个时间步数据的向量表示。
@@ -32,6 +33,7 @@ CNN 共有ｒ 个卷积核，因此最终会得到ｒ 个特征图。卷积后�
 
 其中 Ｈ~ｉ~ 为最后一层LSTM 隐藏层的输出，Ｓ~ｉ~ 为每个隐藏层输出的得分，α~ｉ~ 为权重系数，Ｃ~ｉ~ 为加权求和后的结果，softmax为激活函数。
 第五层是输出层。该层规定了预测时间步ｏ~ｔ~，最终输出ｏ~ｔ~ 步的预测结果。
+
 ```python
 def cnn_lstm_attention_model(n_input, n_out, n_features):
     inputs = Input(shape=(n_input, n_features))
@@ -84,6 +86,7 @@ def series_to_supervised(data, n_in, n_out, dropnan=True):
 ```
 ### 评估指标
 本文选择平均绝对误差（MAE）和均方根误差（RMSE）以及R^2^作为误差评估指标，来定量地分析模型预测效果，公式如下:
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/ee6d328202244c54981b6ee333e4448f.png)
 上述公式中，ｎ 表示预测样本个数，ｙ 表示真实值，ｙ′表示预测值。
 
@@ -96,6 +99,7 @@ def series_to_supervised(data, n_in, n_out, dropnan=True):
 
 ### 模型对比与分析
 使用消融实验来进行模型对比
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/9c2fe99343504d52908abd842d9a3765.png)
 可以看到cnn_lstm_attention模型效果最好。
 ```python
