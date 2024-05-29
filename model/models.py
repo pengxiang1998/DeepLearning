@@ -1,7 +1,8 @@
-from keras.layers.core import *
-from keras.layers.recurrent import LSTM
-from keras.models import *
-from keras.layers import merge, TimeDistributed, Conv1D, Bidirectional
+#因为keras的更新，merge函数已经不存在，一些包的导入也发生了更改，故将源代码修改如下：
+#代码详细改动：1.将前面的import修改 2.将第50行的merge函数修改
+from keras.models import Sequential, Model
+from keras.layers import LSTM, Dense, Dropout, Flatten, TimeDistributed, Input, Permute, Conv1D, Bidirectional, RepeatVector,Multiply
+
 
 
 class Generate_model():
@@ -46,7 +47,7 @@ class Generate_model():
         # batch_size, lstm_units, time_steps -> batch_size, time_steps, lstm_units
         a_probs = Permute((2, 1), name='attention_vec')(a)
         # 相当于获得每一个step中，每个特征的权重
-        output_attention_mul = merge([inputs, a_probs], name='attention_mul', mode='mul')
+        output_attention_mul = Multiply()([inputs, a_probs])
         return output_attention_mul
 
     def generate_attention_model(self, n_input, n_out, n_features):
@@ -94,4 +95,3 @@ class Generate_model():
         model.summary()
         model.compile(loss="mse", optimizer='adam')
         return model
-
